@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona</title>
+</head>
+<style>
+    #biznesowy {
+        display: none;
+    }
+</style>
+
+<body>
+    <h2>Formularz dodawania klienta</h2>
+    <form method="post" id="formularzKlient">
+        <label for="klientBiznesowy">Klient biznesowy:</label>
+        <input type="checkbox" id="klientBiznesowy" name="klientBiznesowy"><br>
+
+        <div id="biznesowy">
+            <label for="nip">NIP:</label><br>
+            <input type="text" id="nip" name="nip" required><br>
+            <label for="nazwaFirmy">Nazwa firmy</label><br>
+            <input type="text" id="nip" name="nip" required><br>
+        </div>
+        <div id="prywatny">
+            <label for="imie">Imię</label><br>
+            <input type="text" id="imie" name="imie" required><br>
+            <label for="nazwisko">Nazwisko</label><br>
+            <input type="text" id="nazwisko" name="nazwisko" required><br>
+        </div>
+        <label for="miasto">Miasto:</label><br>
+        <input type="text" id="city" name="city" required><br>
+        <label for="kodPocztowy">Kod pocztowy:</label><br>
+        <input type="text" id="kodPocztowy" name="kodPocztowy" required><br>
+        <label for="ulica">Ulica:</label><br>
+        <input type="text" id="ulica" name="ulica" required><br>
+
+        <label for="numerBudynku">Numer budynku:</label><br>
+        <input type="text" id="numerBudynku" name="numerBudynku" required><br>
+
+        <label for="numerLokalu">Numer lokalu:</label><br>
+        <input type="text" id="numerLokalu" name="numerLokalu"><br>
+
+        <label for="industry">Branża:</label><br>
+        <select id="industry" name="industry" required>
+            <option value="IT">IT</option>
+            <option value="Finanse">Finanse</option>
+            <option value="Medycyna">Medycyna</option>
+            <option value="Handel">Handel</option>
+            <option value="Inne">Inne</option>
+        </select><br><br>
+        <label for="daneOsobowe">Zgoda na przetwarzadnie danych osobowych</label>
+        <input type="checkbox" id="daneOsobowe" name="daneOsobowe" required><br>
+
+
+        <button type="button" onclick="saveData()">Zapisz</button>
+        <button type="button" onclick="insertData()">Wstaw</button>
+    </form>
+    <script>
+        document.getElementById('klientBiznesowy').addEventListener('change', function () {
+            var form = document.getElementById('biznesowy');
+            if (this.checked) {
+                biznesowy.style.display = 'block';
+                prywatny.style.display = 'none';
+            } else {
+                biznesowy.style.display = 'none';
+                prywatny.style.display = 'block';
+            }
+        });           
+    </script>
+</body>
+
+</html>
