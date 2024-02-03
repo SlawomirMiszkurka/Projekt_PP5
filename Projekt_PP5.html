@@ -5,60 +5,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strona</title>
+    <style>
+        #biznesowy {
+            display: none;
+        }
+
+        input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<style>
-    #biznesowy {
-        display: none;
-    }
-</style>
 
 <body>
-    <h2>Formularz dodawania klienta</h2>
-    <form method="post" id="formularzKlient">
-        <label for="klientBiznesowy">Klient biznesowy:</label>
-        <input type="checkbox" id="klientBiznesowy" name="klientBiznesowy"><br>
+    <h1>Sklep FHU Pekar Kraków</h1>
+    <button onclick="pokazformularzKlient()">Dodaj nowego klienta</button>
+    <button onclick="pokazformularzReklamacyjny()">Formularz reklamacyjny</button>
+    <button onclick="showReklamacyjnyForm()">Złożenie zamówienia</button>
+    <div id="formularzKlient" style="display: none;">
 
-        <div id="biznesowy">
-            <label for="nip">NIP:</label><br>
-            <input type="text" id="nip" name="nip" required><br>
-            <label for="nazwaFirmy">Nazwa firmy</label><br>
-            <input type="text" id="nip" name="nip" required><br>
-        </div>
-        <div id="prywatny">
-            <label for="imie">Imię</label><br>
-            <input type="text" id="imie" name="imie" required><br>
-            <label for="nazwisko">Nazwisko</label><br>
-            <input type="text" id="nazwisko" name="nazwisko" required><br>
-        </div>
+        <h2>Dodawanie nowego klienta</h2>
+        <form method="post" id="klient">
+            <label for="klientBiznesowy">Klient biznesowy:</label>
+            <input type="checkbox" id="klientBiznesowy" name="klientBiznesowy"><br>
+
+            <div id="biznesowy">
+                <label for="nip">NIP:</label><br>
+                <input type="text" id="nip" name="nip" placeholder="Wprowadź nip" required><br>
+                <label for="nazwaFirmy">Nazwa firmy</label><br>
+                <input type="text" id="nazwaFirmy" name="nazwaFirmy" placeholder="Wprowadź nazwę firmy" required><br>
+            </div>
+            <div id="prywatny">
+                <label for="imie">Imię</label><br>
+                <input type="text" id="imie" name="imie" placeholder="Wprowadź imię" required><br>
+                <label for="nazwisko">Nazwisko</label><br>
+                <input type="text" id="nazwisko" name="nazwisko" placeholder="Wprowadź nazwisko" required><br>
+            </div>
+            <div id="formularz">
+                <label for="email">Adres mailowy </label> </label><br>
+                <input type="email" id="email" name="email" placeholder="Wprowadź adres mailowy"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"><br>
+                <label for="miasto">Miasto:</label><br>
+                <input type="text" id="miasto" name="city" placeholder="Wprowadź miasto" required><br>
+                <label for="kodPocztowy">Kod pocztowy:</label><br>
+                <input type="text" id="kodPocztowy" name="kodPocztowy" placeholder="Wprowadź kod pocztowy" required><br>
+                <label for="ulica">Ulica:</label><br>
+                <input type="text" id="ulica" name="ulica" placeholder="Wprowadź ulice" required><br>
+                <label for="numerBudynku">Numer budynku:</label><br>
+                <input type="text" id="numerBudynku" name="numerBudynku" placeholder="Wprowadź numer budynku"
+                    required><br>
+                <label for="numerLokalu">Numer lokalu:</label><br>
+                <input type="text" id="numerLokalu" name="numerLokalu" placeholder="Wprowadź numer lokalu"><br>
+                <label for="numerTelefonu">Numer kontaktowy</label><br>
+                <input type="text" id="numerTelefonu" name="numerTelefonu" placeholder="Wprowadź numer telefonu"><br>
+                <label for="daneOsobowe">Zgoda na przetwarzadnie danych osobowych</label><br>
+                <input type="checkbox" id="daneOsobowe" name="daneOsobowe" required><br>
+            </div>
+
+            <button type="button" onclick="saveData()">Zapisz</button>
+            <button type="button" onclick="showClientList()">Lista klientów</button>
+            <ul id="clientList"></ul>
+    </div>
+    </form>
+    <div id="formularzReklamacyjny" style="display: none;">
+        <h2>Formularz reklamacyjny</h2>
+        <form method="post">
+        </form> <label>Proszę podać dane osoby zgłaszającej </label><br>
+        <label for="imie">Imię</label><br>
+        <input type="text" id="imie" name="imie" placeholder="Wprowadź imię" required><br>
+        <label for="nazwisko">Nazwisko</label><br>
+        <input type="text" id="nazwisko" name="nazwisko" placeholder="Wprowadź nazwisko" required><br>
+        <label for="email">Adres mailowy </label> </label><br>
+        <input type="email" id="email" name="email" placeholder="Wprowadź adres mailowy"
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"><br>
         <label for="miasto">Miasto:</label><br>
-        <input type="text" id="city" name="city" required><br>
+        <input type="text" id="miasto" name="city" placeholder="Wprowadź miasto" required><br>
         <label for="kodPocztowy">Kod pocztowy:</label><br>
-        <input type="text" id="kodPocztowy" name="kodPocztowy" required><br>
+        <input type="text" id="kodPocztowy" name="kodPocztowy" placeholder="Wprowadź kod pocztowy" required><br>
         <label for="ulica">Ulica:</label><br>
-        <input type="text" id="ulica" name="ulica" required><br>
-
+        <input type="text" id="ulica" name="ulica" placeholder="Wprowadź ulice" required><br>
         <label for="numerBudynku">Numer budynku:</label><br>
-        <input type="text" id="numerBudynku" name="numerBudynku" required><br>
-
+        <input type="text" id="numerBudynku" name="numerBudynku" placeholder="Wprowadź numer budynku" required><br>
         <label for="numerLokalu">Numer lokalu:</label><br>
-        <input type="text" id="numerLokalu" name="numerLokalu"><br>
-
-        <label for="industry">Branża:</label><br>
-        <select id="industry" name="industry" required>
-            <option value="IT">IT</option>
-            <option value="Finanse">Finanse</option>
-            <option value="Medycyna">Medycyna</option>
-            <option value="Handel">Handel</option>
-            <option value="Inne">Inne</option>
-        </select><br><br>
-        <label for="daneOsobowe">Zgoda na przetwarzadnie danych osobowych</label>
-        <input type="checkbox" id="daneOsobowe" name="daneOsobowe" required><br>
-
-
-        <button type="button" onclick="saveData()">Zapisz</button>
-        <button type="button" onclick="insertData()">Wstaw</button>
+        <input type="text" id="numerTelefonu" name="numerTelefonu" placeholder="Wprowadź numer telefonu"><br>
+        <label for="daneOsobowe">Zgoda na przetwarzadnie danych osobowych</label><br>
+        <input type="text" id="numerLokalu" name="numerLokalu" placeholder="Wprowadź numer lokalu"><br>
+        <label for="numerZamowienia">Numer zamówienia/paragonu</label><br>
+        <input type="text" id="numerZamowienia" name="numerZamowienia" placeholder="Wprowadź numer zamówienia/paragonu"
+            required><br>
+        <label type="dataZakupu">Data zakupu</label><br>
+        <input type="date" id="dataZakupu" name="dataZakupu" placeholder="Podaj date zakupu"><br>
+        <label for="rezim">Z jakiego tytułu zgłoszenie?</label><br>
+        <select id="rezim" name="rezim">
+            <option value="gwarancja">Gwarancja</option>
+            <option value="rekojmia">Rękojmia</option>
+        </select><br>
+        <div id="rekojmiaFields" style="display: none;">
+            <label for="rozpatrzenie">Oczekiwane rozpatrzenie reklamacji:</label><br>
+            <select id="rozpatrzenie" name="rozpatrzenie">
+                <option value="naprawa">Naprawa</option>
+                <option value="wymiana">Wymiana</option>
+                <option value="obnizenieCeny">Obniżenie ceny</option>
+                <option value="zwrot">Zwrot</option>
+            </select>
+        </div>
+        <div id="rabat" style="display: none">
+            <label for="rabat">Oczekiwane obniżenie ceny w złotówkach</label><br>
+            <input type="rabat" id="rabat" name="rabat" placeholder="Wpisz kwotę oczekiwanego rabatu"><br>
+        </div>
+    </div>
     </form>
     <script>
+        const clients = [];
+        function pokazformularzKlient() {
+            document.getElementById('formularzKlient').style.display = 'block';
+            document.getElementById('formularzReklamacyjny').style.display = 'none';
+        }
+
+        function pokazformularzReklamacyjny() {
+            document.getElementById('formularzReklamacyjny').style.display = 'block';
+            document.getElementById('formularzKlient').style.display = 'none';
+        }
         document.getElementById('klientBiznesowy').addEventListener('change', function () {
             var form = document.getElementById('biznesowy');
             if (this.checked) {
@@ -68,7 +138,52 @@
                 biznesowy.style.display = 'none';
                 prywatny.style.display = 'block';
             }
-        });           
+        });
+        document.getElementById('rezim').addEventListener('change', function () {
+            var selectedValue = this.value;
+            var rekojmiaFields = document.getElementById('rekojmiaFields');
+
+            if (selectedValue === 'rekojmia') {
+                rekojmiaFields.style.display = 'block';
+            } else {
+                rekojmiaFields.style.display = 'none';
+            }
+        });
+        document.getElementById('rozpatrzenie').addEventListener('change', function () {
+            var selectedValue = this.value;
+            var rekojmiaFields = document.getElementById('rabat');
+
+            if (selectedValue === 'obnizenieCeny') {
+                rekojmiaFields.style.display = 'block';
+            } else {
+                rekojmiaFields.style.display = 'none';
+            }
+        });
+        function saveData() {
+            let formData = {
+                imie: document.getElementById('imie').value,
+                nazwisko: document.getElementById('nazwisko').value,
+                email: document.getElementById('email').value,
+                miasto: document.getElementById('miasto').value,
+                kodPocztowy: document.getElementById('kodPocztowy').value,
+                ulica: document.getElementById('ulica').value,
+                numerBudynku: document.getElementById('numerBudynku').value,
+                numerLokalu: document.getElementById('numerLokalu').value,
+                numerTelefonu: document.getElementById('numerTelefonu').value,
+
+            };
+            console.log(formData);
+            clients.push(formData);
+            console.log(clients);
+            document.getElementById('klient').reset();
+        }
+        function showClientList() {
+            let clientList = '';
+            clients.forEach(client => {
+                clientList += `<li>${client.imie} ${client.nazwisko}</li>`;
+            });
+            document.getElementById('clientList').innerHTML = clientList;
+        }
     </script>
 </body>
 
