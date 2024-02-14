@@ -88,13 +88,9 @@
     reklamacyjny</button>
 <button onclick="pokazFormularzZamówienia()" style="background-color: #0057AD  ;">Złożenie zamówienia</button>
 <div id="formularzKlient" style="display: none;">
-    <div id="listaKlientów" style="display: block;">
-        <button onclick="pokazListeKlientów()">
-            Otwórz listę klientów
-        </button>
-        <ul class="listaKlienci" id="listaKlienci">
-            <li class="listaKlienciDane">Lista klientów</li>
-        </ul>
+    <div id="listaKlientow">
+        <h2>Lista klientów</h2>
+        <ul class="listaKlientow" id="listaKlientowElement"></ul>
     </div>
 
     <h2>Dodawanie nowego klienta</h2>
@@ -188,93 +184,145 @@
     <button id="zapisReklamacja">Zapisz</button>
 </div>
 </form>
+<form id="formularzZamówienia" style="display: none;">
+
+</form>
 <script>
-    const klient = [];
     function pokazFormularzKlient() {
         document.getElementById('formularzKlient').style.display = 'block';
         document.getElementById('formularzReklamacyjny').style.display = 'none';
-
+        document.getElementById('formularzZamówienia').style.display = 'none';
     }
 
     function pokazFormularzReklamacyjny() {
         document.getElementById('formularzReklamacyjny').style.display = 'block';
         document.getElementById('formularzKlient').style.display = 'none';
+        document.getElementById('formularzZamówienia').style.display = 'none';
+    }
+    function pokazFormularzZamówienia() {
+        document.getElementById('formularzZamówienia').style.display = 'block';
+        document.getElementById('formularzKlient').style.display = 'none';
+        document.getElementById('formularzReklamacyjny').style.display = 'none';
+    }
+    class Klient {
+        constructor(imie, nazwisko, nazwaFirmy, nip, email, miasto, kodPocztowy, ulica, numerBudynku, numerLokalu, numerTelefonu) {
+            this.imie = imie;
+            this.nazwisko = nazwisko;
+            this.nazwaFirmy = nazwaFirmy;
+            this.nip = nip;
+            this.email = email;
+            this.miasto = miasto;
+            this.kodPocztowy = kodPocztowy;
+            this.ulica = ulica;
+            this.numerBudynku = numerBudynku;
+            this.numerLokalu = numerLokalu;
+            this.numerTelefonu = numerTelefonu;
+        }
+
+        static pobierzDane() {
+
+            let klientBiznesowy = document.getElementById('klientBiznesowy').checked;
+
+
+            let email = document.getElementById('email').value;
+            let miasto = document.getElementById('miasto').value;
+            let kodPocztowy = document.getElementById('kodPocztowy').value;
+            let ulica = document.getElementById('ulica').value;
+            let numerBudynku = document.getElementById('numerBudynku').value;
+            let numerLokalu = document.getElementById('numerLokalu').value;
+            let numerTelefonu = document.getElementById('numerTelefonu').value;
+            let nazwaFirmy = "";
+            let nip = "";
+
+            if (klientBiznesowy) {
+                nazwaFirmy = document.getElementById('nazwaFirmy').value;
+                nip = document.getElementById('nip').value;
+            }
+            else {
+                let imie = document.getElementById('imie').value;
+                let nazwisko = document.getElementById('nazwisko').value;
+            }
+
+            return new Klient(
+                imie,
+                nazwisko,
+                nazwaFirmy,
+                nip,
+                email,
+                miasto,
+                kodPocztowy,
+                ulica,
+                numerBudynku,
+                numerLokalu,
+                numerTelefonu
+            );
+        }
     }
 
-    document.getElementById('klientBiznesowy').addEventListener('change', function () {
-        var form = document.getElementById('biznesowy');
-        if (this.checked) {
-            biznesowy.style.display = 'block';
-            prywatny.style.display = 'none';
-        } else {
-            biznesowy.style.display = 'none';
-            prywatny.style.display = 'block';
-        }
-    });
-    document.getElementById('rezim').addEventListener('change', function () {
-        var selectedValue = this.value;
-        var rekojmiaFields = document.getElementById('rekojmiaFields');
 
-        if (selectedValue === 'rekojmia') {
-            rekojmiaFields.style.display = 'block';
-        } else {
-            rekojmiaFields.style.display = 'none';
+    class Reklamacja {
+        constructor(imie, nazwisko, email, miasto, kodPocztowy, ulica, numerBudynku, numerLokalu, numerTelefonu, numerZamowienia, dataZakupu, rezim, rozpatrzenie, rabat, pliki) {
+            this.imie = imie;
+            this.nazwisko = nazwisko;
+            this.email = email;
+            this.miasto = miasto;
+            this.kodPocztowy = kodPocztowy;
+            this.ulica = ulica;
+            this.numerBudynku = numerBudynku;
+            this.numerLokalu = numerLokalu;
+            this.numerTelefonu = numerTelefonu;
+            this.numerZamowienia = numerZamowienia;
+            this.dataZakupu = dataZakupu;
+            this.rezim = rezim;
+            this.rozpatrzenie = rozpatrzenie;
+            this.rabat = rabat;
+            this.pliki = pliki;
         }
-    });
-    document.getElementById('rozpatrzenie').addEventListener('change', function () {
-        var selectedValue = this.value;
-        var rekojmiaFields = document.getElementById('rabat');
 
-        if (selectedValue === 'obnizenieCeny') {
-            rekojmiaFields.style.display = 'block';
-        } else {
-            rekojmiaFields.style.display = 'none';
+        static pobierzDane() {
+            return new Reklamacja(
+                document.getElementById('imie').value,
+                document.getElementById('nazwisko').value,
+                document.getElementById('email').value,
+                document.getElementById('miasto').value,
+                document.getElementById('kodPocztowy').value,
+                document.getElementById('ulica').value,
+                document.getElementById('numerBudynku').value,
+                document.getElementById('numerLokalu').value,
+                document.getElementById('numerTelefonu').value,
+                document.getElementById('numerZamowienia').value,
+                document.getElementById('dataZakupu').value,
+                document.getElementById('rezim').value,
+                document.getElementById('rozpatrzenie').value,
+                document.getElementById('rabat').value,
+                document.getElementById('pliki').value
+            );
         }
-    });
-
+    }
     function zapisKlient() {
-        let formData = {
-            imie: document.getElementById('imie').value,
-            nazwisko: document.getElementById('nazwisko').value,
-            nazwaFirmy: document.getElementById('nazwaFirmy').value,
-            nip: document.getElementById('nip').value,
-            email: document.getElementById('email').value,
-            miasto: document.getElementById('miasto').value,
-            kodPocztowy: document.getElementById('kodPocztowy').value,
-            ulica: document.getElementById('ulica').value,
-            numerBudynku: document.getElementById('numerBudynku').value,
-            numerLokalu: document.getElementById('numerLokalu').value,
-            numerTelefonu: document.getElementById('numerTelefonu').value,
-        };
-        klient.push(formData);
+        let klient = Klient.pobierzDane();
+        listaKlientow.push(klient);
         updateClientList();
         document.getElementById('klient').reset();
     }
 
-
-
+    const listaReklamacji = [];
+    function zapisReklamacja() {
+        let reklamacja = Reklamacja.pobierzDane();
+        listaReklamacji.push(reklamacja);
+        updateClientList();
+        document.getElementById('reklamacja').reset();
+    }
     function updateClientList() {
-        const klientListElement = document.getElementById('listaKlientów');
-        klientListElement.innerHTML = '';
+        const listaKlientowElement = document.getElementById('listaKlienci');
 
-        klient.forEach((klient, index) => {
-            const listItem = document.createElement('li');
-            listItem.className = 'listaKlienci';
-            listItem.innerHTML = `
-            Imię ${klient.imie}
-            <br>Nazwisko ${klient.nazwisko}
-            <br>NIP ${klient.nip}
-            <br>Nazwa Firmy ${klient.nazwaFirmy}     
-            <br>Email: ${klient.email}
-            <br>Miasto: ${klient.miasto}
-            <br>Kod pocztowy: ${klient.kodPocztowy}
-            <br>Ulica: ${klient.ulica}
-            <br>Numer budynku: ${klient.numerBudynku}
-            <br>Numer lokalu: ${klient.numerLokalu}
-            <br>Numer telefonu: ${klient.numerTelefonu}
-        `;
+        listaKlientowElement.innerHTML = '';
 
-            klientListElement.appendChild(listItem);
+
+        listaKlientow.forEach((klient, index) => {
+            let klientInfo = document.createElement('li');
+            klientInfo.textContent = `${index + 1}. ${klient.imie} ${klient.nazwisko}`;
+            listaKlientowElement.appendChild(klientInfo);
         });
     }
 
